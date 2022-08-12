@@ -15,24 +15,24 @@ const Table = ({ issues, updateFilter, filter }: TableProps) => {
 	const elements = [
 		{
 			header: 'title',
-			cell: (issue: any) => issue.title
+			cell: (issue: IssueGithub) => <a href={issue.html_url} >issue.title</a>
 		},
 		{
 			header: 'comments',
 			filter: <Filters labelTooltip={'comments'} type={'comments'} onClick={updateFilter('comments')} filter={filter} />,
-			cell: (issue: any) => issue.comments
+			cell: (issue: IssueGithub) => issue.comments
 		},
 		{
 			header: 'created',
 			accessor: 'created_at',
 			filter: <Filters labelTooltip={'created'} type={'created_at'} onClick={updateFilter('created_at')} filter={filter}/>,
-			cell: (issue: any) => DateTime.fromISO(issue.created_at).toFormat('dd-MM-yyyy')
+			cell: (issue: IssueGithub) => DateTime.fromISO(issue.created_at).toFormat('dd-MM-yyyy')
 		},
 		{
 			header: 'updated',
 			accessor: 'updated_at',
 			filter: <Filters labelTooltip={'updated'} type={'updated_at'} onClick={updateFilter('updated_at')} filter={filter}/>,
-			cell: (issue: any) => DateTime.fromISO(issue.created_at).toFormat('dd-MM-yyyy')
+			cell: (issue: IssueGithub) => DateTime.fromISO(issue.created_at).toFormat('dd-MM-yyyy')
 		}
 	]
 	return <table className={styles.table}>
