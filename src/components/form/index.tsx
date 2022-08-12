@@ -13,8 +13,8 @@ const sortOptions = [
 
 const Form = ({ onSubmit }: FormProps) => {
 	return <form onSubmit={onSubmit} className={styles.form}>
-		<input defaultValue={'reactjs'} type={'text'} name={'owner'} placeholder={'owner'} />
-		<input defaultValue={'reactjs.org'} type={'text'} name={'repository'} placeholder={'repository'} />
+		<input defaultValue={'reactjs'} type={'text'} name={'owner'} placeholder={'owner'} required />
+		<input defaultValue={'reactjs.org'} type={'text'} name={'repository'} placeholder={'repository'} required />
 		<select name={'sort'}>
 			{ sortOptions.map(({value, label}) => {
 				return <option key={`option-sort-${label}`} value={value}>{label}</option>
