@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import styles from '../styles/index.module.scss'
 import {useCallback, useEffect, useMemo, useState} from "react";
-import axios from "axios";
+import axios, {AxiosError} from "axios";
 import {NextPage} from "next";
 import {useInfiniteQuery} from "@tanstack/react-query";
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -10,17 +10,20 @@ import Form from "../src/components/form";
 import Error from "../src/components/error";
 import Loader from "../src/components/loader";
 import LoaderSVG from "../src/svg/loader";
+import {IssueGithub} from "../src/types/IssueGithub";
+
+const GITHUB_API_MAX_ITEMS = 30
 
 const Home: NextPage = () => {
   const [form, setForm] = useState<any>(null)
 
-  const { refetch: fetchIssues, isRefetching, isRefetchError, error, data, fetchNextPage, hasNextPage } = useInfiniteQuery(['issues', form],  async ({ pageParam = 1}) => {
+  const { refetch: fetchIssues, isRefetching, error, data, fetchNextPage, hasNextPage } = useInfiniteQuery<IssueGithub[], any>(['issues', form],  async ({ pageParam = 1}) => {
     const res = await axios.get(`https://api.github.com/repos/${form?.owner}/${form?.repository}/issues?sort=${form?.sort}&page=${pageParam}&direction=${form?.direction}`);
     return res.data
   }, {
     enabled: false,
     getNextPageParam: (lastPage, pages) => {
-      return lastPage.length === 30 ? pages.length + 1 : undefined
+      return lastPage.length === GITHUB_API_MAX_ITEMS ? pages.length + 1 : undefined
     }
   })
 
@@ -52,7 +55,7 @@ const Home: NextPage = () => {
       setForm({...form, sort: filterType, direction: direction});
     }
  }, [form])
-
+  console.log('error', error)
  return (
     <div className={styles.container}>
       <Head>
@@ -64,14 +67,14 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>Github Issue viewer</h1>
       </header>
         <Form onSubmit={onSubmit} />
-        <main className={styles.main}>
-          { isRefetching && <Loader />}
-          { error && <Error message={error?.response?.data?.message} />}
+        <main className={styles.center}>
+          { isRefetching ? <Loader /> : null}
+          { error ? <Error message={error?.response?.data?.message} /> : null}
           {
-            issues?.length > 0 &&
+            issues?.length > 0 ?
             <InfiniteScroll
               next={fetchDebounce}
-              hasMore={hasNextPage}
+              hasMore={!!hasNextPage}
               loader={<div className={styles.center}><LoaderSVG /></div>}
               dataLength={issues?.length}
               scrollThreshold={1}
@@ -79,6 +82,7 @@ const Home: NextPage = () => {
             >
               <Table issues={issues} updateFilter={updateFilter} filter={{sort: form?.sort, direction: form?.direction}} />
             </InfiniteScroll>
+              : null
           }
         </main>
     </div>

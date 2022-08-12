@@ -15,7 +15,7 @@ const Table = ({ issues, updateFilter, filter }: TableProps) => {
 	const elements = [
 		{
 			header: 'title',
-			cell: (issue: IssueGithub) => <a href={issue.html_url} >issue.title</a>
+			cell: (issue: IssueGithub) => <a href={issue.html_url} >{ issue.title }</a>
 		},
 		{
 			header: 'comments',
