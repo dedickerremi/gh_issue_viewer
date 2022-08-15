@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import styles from '../styles/index.module.scss'
 import {useCallback, useEffect, useMemo, useState} from "react";
-import axios, {AxiosError} from "axios";
+import axios from "axios";
 import {NextPage} from "next";
 import {useInfiniteQuery} from "@tanstack/react-query";
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -55,7 +55,7 @@ const Home: NextPage = () => {
       setForm({...form, sort: filterType, direction: direction});
     }
  }, [form])
-  console.log('error', error)
+
  return (
     <div className={styles.container}>
       <Head>
