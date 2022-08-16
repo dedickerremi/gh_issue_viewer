@@ -29,11 +29,18 @@ const Home: NextPage = () => {
 
   const fetchDebounce = () => {
     fetchNextPage()
+    .catch(error => {
+      console.error(error)
+    })
   }
 
   useEffect(() => {
     if (form) {
       fetchIssues()
+      .catch(error => {
+        console.error(error)
+      })
+
     }
   }, [form, fetchIssues])
 
