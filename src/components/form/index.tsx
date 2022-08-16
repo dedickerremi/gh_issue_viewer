@@ -1,11 +1,12 @@
 import React from "react";
 import styles from "./form.module.scss";
+import {FormOptions} from "../../types/FormOptions";
 
 interface FormProps {
 	onSubmit: (event: any) => void
 }
 
-const sortOptions = [
+const sortOptions: FormOptions[] = [
 	{ value: 'created_at', label: 'Created At' },
 	{ value: 'updated_at', label: 'Updated At' },
 	{ value: 'comments', label: 'Comments' }

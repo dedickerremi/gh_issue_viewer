@@ -1,10 +1,11 @@
 import ArrowSVG from "../../svg/arrow";
 import styles from "./filters.module.scss"
+import {Filter, SortType} from "../../types/Filter";
 
 interface FiltersProps {
 	onClick: any;
-	filter: any;
-	type: string;
+	filter: Filter;
+	type: SortType;
 	labelTooltip: string;
 }
 

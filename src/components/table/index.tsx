@@ -4,11 +4,12 @@ import {nanoid} from "nanoid";
 import {DateTime} from "luxon";
 import Filters from "./filters";
 import {IssueGithub} from "../../types/IssueGithub";
+import {Filter, SortType} from "../../types/Filter";
 
 interface TableProps {
 	issues: IssueGithub[];
-	updateFilter: any;
-	filter: any;
+	updateFilter: (type: SortType) => any;
+	filter: Filter;
 }
 
 const Table = ({ issues, updateFilter, filter }: TableProps) => {
